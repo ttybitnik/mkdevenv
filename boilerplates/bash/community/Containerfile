@@ -1,0 +1,25 @@
+# MKDEVENV 0.1.0 (x-release-please-version)
+FROM docker.io/bash:latest
+
+ARG USERNAME=mkdevenv
+
+LABEL mkdevenv.name="bash-community" \
+      mkdevenv.summary="Image with general tools for developing Bash-related projects" \
+      mkdevenv.usage="For more information, see <https://github.com/ttybitnik/mkdevenv>"
+
+COPY .mkdevenv/*.txt /tmp/
+
+RUN xargs -n 1 apk add --no-cache < /tmp/apk.txt \
+    && adduser -D $USERNAME \
+    && chown $USERNAME:$USERNAME /tmp/*.txt
+
+WORKDIR /home/$USERNAME/workspace
+
+USER $USERNAME
+
+ENV NPM_CONFIG_PREFIX="/home/$USERNAME/.local" \
+    PATH="/home/$USERNAME/.local/bin:$PATH"
+
+RUN xargs -n 1 npm install -g < /tmp/npm.txt && npm cache clean --force
+
+CMD ["bash", "-l"]
