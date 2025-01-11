@@ -1,0 +1,4 @@
+git
+make
+ripgrep
+npm
