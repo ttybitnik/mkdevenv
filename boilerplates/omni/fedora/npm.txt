@@ -1,0 +1,4 @@
+yaml-language-server
+@ansible/ansible-language-server
+bash-language-server
+release-please

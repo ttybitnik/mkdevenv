@@ -1,0 +1,16 @@
+git
+make
+ripgrep
+golang
+npm
+python3
+python3-pip
+ansible-core
+shellcheck
+shfmt
+hadolint
+trivy
+gcc
+clang
+clang-tools-extra
+gdb
