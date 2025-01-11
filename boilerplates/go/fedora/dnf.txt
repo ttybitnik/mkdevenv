@@ -1,0 +1,5 @@
+git
+make
+ripgrep
+golang
+npm

@@ -1,0 +1,30 @@
+# MKDEVENV 0.1.0 (x-release-please-version)
+FROM docker.io/fedora:latest
+
+ARG USERNAME=mkdevenv
+
+LABEL mkdevenv.name="go-fedora" \
+      mkdevenv.summary="Image with general tools for developing Go-related projects" \
+      mkdevenv.usage="For more information, see <https://github.com/ttybitnik/mkdevenv>"
+
+COPY .mkdevenv/*.txt /tmp/
+
+RUN dnf update -y && xargs -n 1 dnf install -y < /tmp/dnf.txt && dnf clean all \
+    && adduser $USERNAME \
+    && chown $USERNAME:$USERNAME /tmp/*.txt
+
+WORKDIR /home/$USERNAME/workspace
+
+COPY go.mod go.sum ./
+RUN chown $USERNAME:$USERNAME ./go.mod ./go.sum
+
+USER $USERNAME
+
+ENV GOBIN="/home/$USERNAME/.local/bin" \
+    NPM_CONFIG_PREFIX="/home/$USERNAME/.local"
+
+RUN xargs -n 1 go install < /tmp/go.txt
+RUN xargs -n 1 npm install -g < /tmp/npm.txt && npm cache clean --force
+RUN go mod download && go mod verify
+
+CMD ["/bin/bash", "-l"]
