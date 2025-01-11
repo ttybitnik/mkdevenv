@@ -1,0 +1,53 @@
+---
+name: Fallback updates
+description: Run update scripts as fallback and push any changes
+inputs:
+  run_mode:
+    description: Run fallback script as push or dry-run
+    required: false
+    default: 'dry-run'
+outputs:
+  makefiles:
+    description: Status from update-makefiles.sh
+    value: ${{ steps.makefiles.outputs.makefiles }}
+  push:
+    description: Status from update-push.sh
+    value: ${{ steps.push.outputs.push }}
+  changes:
+    description: Status from update changes
+    value: ${{ steps.makefiles.outputs.changes }}
+runs:
+  using: composite
+  steps:
+    - name: Check Makefiles changes as fallback
+      id: makefiles
+      shell: bash
+      env:
+        RUN_MODE: ${{ inputs.run_mode }}
+        EVENT: ${{ github.event_name }}
+      run: |
+        ./update-makefiles.sh
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+          if [ "$EVENT" != "push" ]; then
+            echo "::warning title=${{ github.job }}::run update-makefiles.sh to update boilerplates."
+          fi
+        fi
+    - name: Push changes to the branch
+      id: push
+      if: ${{ steps.makefiles.outputs.changes && inputs.run_mode == 'push' }}
+      shell: bash
+      env:
+        RUN_MODE: ${{ inputs.run_mode }}
+        TARGET_BRANCH: ${{ github.ref_name }}
+        COMMIT_SHA: ${{ github.sha }}
+      run: |
+        git config user.name 'github-actions[bot]'
+        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git fetch origin
+        git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+        git add .
+        git commit -m "chore(fallback): update changes for ${COMMIT_SHA::7}"
+        git push origin "$TARGET_BRANCH"
+        echo "push=true" >> "$GITHUB_OUTPUT"
+        echo "::notice title=${{ github.job }}::all changes pushed successfully."

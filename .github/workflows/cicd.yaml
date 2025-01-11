@@ -1,0 +1,119 @@
+---
+name: CI/CD
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-please:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      prs_created: ${{ steps.release.outputs.prs_created }}
+      release_created: ${{ steps.release.outputs.release_created }}
+      major: ${{ steps.release.outputs.major }}
+      minor: ${{ steps.release.outputs.minor }}
+      patch: ${{ steps.release.outputs.patch }}
+      sha: ${{ steps.release.outputs.sha }}
+    steps:
+      - name: Automate releases based on conventional commits
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: configs/release-please-config.json
+          manifest-file: configs/release-please-manifest.json
+      - name: Format and print GH step summary
+        if: always()
+        run: |
+          echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
+          echo "| **releases_created** | ${{ steps.release.outputs.releases_created }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **prs_created** | ${{ steps.release.outputs.prs_created }} |" >> $GITHUB_STEP_SUMMARY
+      - name: Format and print the release_created GH step summary
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
+          echo "| **release_created** | ${{ steps.release.outputs.release_created }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **major** | ${{ steps.release.outputs.major }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **minor** | ${{ steps.release.outputs.minor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **patch** | ${{ steps.release.outputs.patch }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **sha** | ${{ steps.release.outputs.sha }} |" >> $GITHUB_STEP_SUMMARY
+
+  linter:
+    needs: release-please
+    runs-on: ubuntu-latest
+    outputs:
+      fallback: ${{ steps.fallback.outputs.changes }}
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+      - name: Check compliance with guidelines
+        id: linter
+        run: ./linter.sh
+      - name: Check Containerfiles with hadolint
+        id: hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Containerfile
+          recursive: true
+          config: configs/hadolint.yaml
+      - name: Check update scripts fallback changes
+        id: fallback
+        uses: ./.github/actions/fallback-updates
+      - name: Format and print GH step summary
+        if: always()
+        run: |
+          echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
+          echo "| **linter** | ${{ steps.linter.outputs.checks }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **hadolint** | ${{ steps.hadolint.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **fallback** | ${{ steps.fallback.outputs.changes || 'false' }} |" >> $GITHUB_STEP_SUMMARY
+
+  fallback-updates:
+    needs: linter
+    permissions:
+      contents: write
+    if: ${{ needs.linter.outputs.fallback && github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+      - name: Run update scripts as fallback and push any changes
+        id: fallback
+        uses: ./.github/actions/fallback-updates
+        with:
+          run_mode: push
+      - name: Format and print GH step summary
+        if: always()
+        run: |
+          echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
+          echo "| **makefiles** | ${{ steps.fallback.outputs.makefiles }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **push** | ${{ steps.fallback.outputs.push || 'false' }} |" >> $GITHUB_STEP_SUMMARY
+
+  secops:
+    needs: [release-please, linter]
+    permissions:
+      contents: read
+      security-events: write
+      # private repos only
+      actions: read
+    if: ${{ needs.release-please.outputs.release_created }}
+    uses: ./.github/workflows/secops.yaml
