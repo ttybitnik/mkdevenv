@@ -122,9 +122,7 @@ To run programs from containers in Emacs on host system, TRAMP needs to search t
 
 The following configuration adds `~/.local/bin`, the default location for non-root programs in the boilerplates, to TRAMP’s search paths. It also includes `tramp-own-remote-path`, which adds the remote user’s assigned path on supported shells:
 ``` emacs-lisp
-(add-to-list 'tramp-remote-path (concat
-				 (file-name-as-directory (getenv "HOME"))
-				 ".local/bin"))
+(add-to-list 'tramp-remote-path (expand-file-name ".local/bin" (getenv "HOME")))
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 ```
 
