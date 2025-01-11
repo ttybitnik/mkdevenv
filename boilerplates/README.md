@@ -10,7 +10,7 @@
 ## Containerfile
 
 - **`ARG`**: Build-time argument for specifying the `USERNAME` (default value: `mkdevenv`).
-- **`LABEL`**: Metadata instruction including `name`, `summary`, `usage`, and `version` information.
+- **`LABEL`**: Metadata instruction including `name`, `summary`, and `usage` information.
 - **`RUN`**: Commands for setting up the environment, including installing the **packages files**, removing cache files, and creating the non-root user.
 - **`WORKDIR`**: Path to the project files inside the container `/home/$USERNAME/workspace`.
 - **`USER`**: Specifies the user to the non-root `$USERNAME`.
