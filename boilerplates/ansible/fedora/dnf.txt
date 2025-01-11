@@ -1,0 +1,7 @@
+git
+make
+ripgrep
+npm
+python3
+python3-pip
+ansible-core
