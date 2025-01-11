@@ -1,8 +1,11 @@
-# ttybitnik/mkdevenv
+# mkdevenv: consistent, isolated development
 
 **mkdevenv** is a collection of OCI-compliant container image boilerplates for managing isolated development environments using GNU Make.
 
 It enables a **consistent**, **open**, and **extensible** workflow by using `Containerfile` and `Makefile` as the standard points of entry. Dependencies and tools are packaged in a custom container, providing isolation and replicability of the development environment while still integrating with the `$EDITOR` on the host system.
+
+> "Don't let the development dependency hell mess with your files and processes. Containerize the development environment!"
+> — [Tower Guardian](https://imgflip.com/i/9gc41r), in a new take.
 
 [![release](https://img.shields.io/github/v/release/ttybitnik/mkdevenv)](https://github.com/ttybitnik/mkdevenv/releases/latest)
 [![ci/cd](https://github.com/ttybitnik/mkdevenv/actions/workflows/cicd.yaml/badge.svg)](https://github.com/ttybitnik/mkdevenv/actions/workflows/cicd.yaml)
