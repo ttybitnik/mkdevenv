@@ -1,0 +1,6 @@
+git
+make
+ripgrep
+shellcheck
+shfmt
+npm
