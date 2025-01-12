@@ -1,6 +1,6 @@
 # mkdevenv: consistent, isolated development
 
-**mkdevenv** is a collection of OCI-compliant container image boilerplates for managing isolated development environments using GNU Make.
+**mkdevenv** is a personal collection of OCI-compliant container image boilerplates for managing isolated development environments using GNU Make.
 
 It enables a **consistent**, **open**, and **extensible** workflow by using `Containerfile` and `Makefile` as the standard points of entry. Dependencies and tools are packaged in a custom container, providing isolation and replicability of the development environment while still integrating with the `$EDITOR` on the host system.
 
