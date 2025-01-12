@@ -1,5 +1,7 @@
 # lua-fedora
-
+> [!WARNING]
+> WIP:
+> If you plan to use the language server, visit [LuaLS Releases](https://github.com/LuaLS/lua-language-server/releases) and update the version in the Containerfile.
 | dnf     | tar                 |
 |---------|---------------------|
 | git     | lua-language-server |

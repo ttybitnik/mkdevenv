@@ -17,7 +17,8 @@ WORKDIR /home/$USERNAME/workspace
 
 USER $USERNAME
 
-ADD https://github.com/LuaLS/lua-language-server/releases/latest/download/lua-language-server-3.10.6-linux-x64.tar.gz \
+# TODO: Maybe automate the process of updating the release version here.
+ADD https://github.com/LuaLS/lua-language-server/releases/download/3.13.5/lua-language-server-3.13.5-linux-x64.tar.gz \
     /home/$USERNAME/.local/bin
 
 CMD ["/bin/bash", "-l"]
