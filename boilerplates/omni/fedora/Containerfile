@@ -17,7 +17,7 @@ WORKDIR /home/$USERNAME/workspace
 
 USER $USERNAME
 
-ENV GOPATH="/home/$USERNAME/go" \
+ENV GOPATH="/home/$USERNAME/.local/share/go" \
     GOBIN="/home/$USERNAME/.local/bin" \
     NPM_CONFIG_PREFIX="/home/$USERNAME/.local"
 
