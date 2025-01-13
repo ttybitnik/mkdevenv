@@ -20,11 +20,10 @@ RUN chown $USERNAME:$USERNAME ./go.mod ./go.sum
 
 USER $USERNAME
 
-ENV GOBIN="/home/$USERNAME/.local/bin" \
-    NPM_CONFIG_PREFIX="/home/$USERNAME/.local"
+ENV GOPATH=/home/$USERNAME/go \
+    GOBIN="/home/$USERNAME/.local/bin"
 
 RUN xargs -n 1 go install < /tmp/go.txt
-RUN xargs -n 1 npm install -g < /tmp/npm.txt && npm cache clean --force
 RUN go mod download && go mod verify
 
 CMD ["/bin/bash", "-l"]
