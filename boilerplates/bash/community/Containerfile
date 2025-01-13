@@ -4,7 +4,7 @@ FROM docker.io/bash:latest
 ARG USERNAME=mkdev
 
 LABEL mkdev.name="bash-community" \
-      mkdev.summary="Image with general tools for developing Bash-related projects" \
+      mkdev.summary="Boilerplate with general tools for developing Bash-related projects" \
       mkdev.usage="For more information, see <https://github.com/ttybitnik/mkdev>"
 
 COPY .mkdev/*.txt /tmp/

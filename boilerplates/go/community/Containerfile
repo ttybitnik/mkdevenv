@@ -4,7 +4,7 @@ FROM docker.io/golang:latest
 ARG USERNAME=mkdev
 
 LABEL mkdev.name="go-community" \
-      mkdev.summary="Image with general tools for developing Go-related projects" \
+      mkdev.summary="Boilerplate with general tools for developing Go-related projects" \
       mkdev.usage="For more information, see <https://github.com/ttybitnik/mkdev>"
 
 COPY .mkdev/*.txt /tmp/
