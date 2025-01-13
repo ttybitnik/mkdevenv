@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.0](https://github.com/ttybitnik/mkdev/compare/v0.1.0...v0.2.0) (2025-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **project:** rename repository to mkdev
+
+### Bug Fixes
+
+* **go:** remove npm instruction ([5cb3428](https://github.com/ttybitnik/mkdev/commit/5cb3428fed0706260473e770009636c48e36188c))
+* **lua:** update lua-language-server version ([73c350e](https://github.com/ttybitnik/mkdev/commit/73c350e6253bfcc7509594a3e178040ee89c607f))
+* **omni:** set gopath inside the shared volume ([fc02cad](https://github.com/ttybitnik/mkdev/commit/fc02cadd1541ac5700e1830df13f59e9f7d31bbc))
+
+
+### Code Refactoring
+
+* **project:** rename repository to mkdev ([6c66484](https://github.com/ttybitnik/mkdev/commit/6c6648427bdf211628260d8142133b8ee134f868))
+
 ## [0.1.0](https://github.com/ttybitnik/mkdev/compare/v0.1.0...v0.1.0) (2025-01-11)
 
 
