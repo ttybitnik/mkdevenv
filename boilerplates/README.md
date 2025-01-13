@@ -9,7 +9,7 @@
 
 ## Containerfile
 
-- **`ARG`**: Build-time argument for specifying the `USERNAME` (default value: `mkdevenv`).
+- **`ARG`**: Build-time argument for specifying the `USERNAME` (default value: `mkdev`).
 - **`LABEL`**: Metadata instruction including `name`, `summary`, and `usage` information.
 - **`RUN`**: Commands for setting up the environment, including installing the **packages files**, removing cache files, and creating the non-root user.
 - **`WORKDIR`**: Path to the project files inside the container `/home/$USERNAME/workspace`.
@@ -32,12 +32,12 @@
 
 - **`PROJECT_NAME`**: Suffix for container and image names, restricted to letters, numbers, underscores, dots, and hyphens `[a-zA-Z0-9][a-zA-Z0-9_.-]*` (default value: `changeme`).
 - **`CONTAINER_ENGINE`**: Command for running the container engine, such as `podman` or `docker` (default value: `changeme`).
-- Development image names with complete address format, including `localhost`, and `mkdevenv` as the namespace (e.g., `localhost/mkdevenv/$(PROJECT_NAME)`).
-- Development container names prefixed with `mkdevenv-` to avoid conflicts (e.g., `mkdevenv-$(PROJECT_NAME)`).
+- Development image names with complete address format, including `localhost`, and `mkdev` as the namespace (e.g., `localhost/mkdev/$(PROJECT_NAME)`).
+- Development container names prefixed with `mkdev-` to avoid conflicts (e.g., `mkdev-$(PROJECT_NAME)`).
 
 ### Host targets/commands
 
-- **`devenv`**: Target for building the development container image.
+- **`dev`**: Target for building the development container image.
 - **`start`**: Target for starting the container.
 - **`stop`**: Target for stopping the container.
 - **`clean`**: Target for removing the container and image.
@@ -59,11 +59,11 @@
 - Table describing the packages installed through **packages files** for each package manager.
 - Basic three-steps instructions with a link for further details:
 ```text
-1. Create a `.mkdevenv` directory at the root of the project.
-2. Copy the boilerplate files into the `.mkdevenv` directory.
+1. Create a `.mkdev` directory at the root of the project.
+2. Copy the boilerplate files into the `.mkdev` directory.
 3. Move the `Makefile` to the root of the project.
 
-*For more information, see <https://github.com/ttybitnik/mkdevenv>.*
+*For more information, see <https://github.com/ttybitnik/mkdev>.*
 ```
 
 ## Complete example
@@ -77,7 +77,7 @@ For a complete example, refer to any of the existing boilerplate files, such as 
 
 To ensure your changes follow the guidelines, run `./linter.sh`.
 
-The files `./Devenv.mk` (per-project) and `./Omni.mk` (multi-project) are the source of truth for each approach. Changes to these files, up to the `# Container targets/commands` section, can be propagated to the boilerplates by running `./update-makefiles.sh`.
+The files `./Dev.mk` (per-project) and `./Omni.mk` (multi-project) are the source of truth for each approach. Changes to these files, up to the `# Container targets/commands` section, can be propagated to the boilerplates by running `./update-makefiles.sh`.
 
 To streamline this process in one step, run:
 

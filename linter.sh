@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# MKDEVENV - Boilerplates for isolated development environments
+# MKDEV - Boilerplates for isolated development environments
 # Copyright (C) 2024 Vinícius Moraes <vinicius.moraes@eternodevir.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ makefiles_assert_sections() {
     sections=(
 	["Host"]="# Host targets/commands"
 	["Container"]="# Container targets/commands"
-	[".PHONY"]=".PHONY: devenv start stop clean serestore"
+	[".PHONY"]=".PHONY: dev start stop clean serestore"
 	[".PHONY"]=".PHONY: lint test build run deploy debug distclean"
     )
 
@@ -60,7 +60,7 @@ makefiles_assert_infos() {
     local -A infos
 
     infos=(
-	["devenv"]='$(info Building development container image...)'
+	["dev"]='$(info Building development container image...)'
 	["start"]='$(info Starting development container...)'
 	["stop"]='$(info Stopping development container...)'
 	["clean"]='$(info Removing development container and image...)'
@@ -89,7 +89,7 @@ makefiles_assert_targets() {
     local -A targets
 
     targets=(
-	["devenv"]="devenv:"
+	["dev"]="dev:"
 	["start"]="start:"
 	["stop"]="stop:"
 	["clean"]="clean: distclean"
@@ -151,8 +151,8 @@ containerfiles_assert_instructions() {
     local -A instructions
 
     instructions=(
-	["ARG"]="USERNAME=mkdevenv"
-	["LABEL"]="mkdevenv.name="
+	["ARG"]="USERNAME=mkdev"
+	["LABEL"]="mkdev.name="
 	["WORKDIR"]='/home/$USERNAME/workspace'
 	["USER"]='$USERNAME'
 	["CMD"]='["/bin/bash", "-l"]'
@@ -208,7 +208,7 @@ for mk in ./*.mk; do
     makefiles_assert_infos "$mk"
     makefiles_assert_targets "$mk"
 
-    if [[ "$mk" == "./Devenv.mk" ]]; then
+    if [[ "$mk" == "./Dev.mk" ]]; then
         makefiles_assert_variables "$mk" "project"
     elif [[ "$mk" == "./Omni.mk" ]]; then
         makefiles_assert_variables "$mk" "omni"

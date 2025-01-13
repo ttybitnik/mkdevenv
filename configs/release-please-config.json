@@ -73,7 +73,7 @@
     ".": {
       "extra-files": [
         "Omni.mk",
-        "Devenv.mk",
+        "Dev.mk",
         {
           "type": "generic",
           "path": "boilerplates/*/*/Makefile",

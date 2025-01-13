@@ -1,5 +1,5 @@
-# MKDEVENV 0.1.0 (x-release-please-version)
-# See <https://github.com/ttybitnik/mkdevenv> for more information.
+# MKDEV 0.1.0 (x-release-please-version)
+# See <https://github.com/ttybitnik/mkdev> for more information.
 
 PROJECT_NAME = changeme
 CONTAINER_ENGINE = changeme
@@ -7,15 +7,15 @@ CONTAINER_ENGINE = changeme
 __USER = $(or $(USER),$(shell whoami))
 
 # Host targets/commands
-.PHONY: devenv start stop clean serestore
+.PHONY: dev start stop clean serestore
 
-devenv:
+dev:
 	$(info Building development container image...)
 
 	$(CONTAINER_ENGINE) build \
 	--build-arg USERNAME=$(__USER) \
-	-f .mkdevenv/Containerfile \
-	-t localhost/mkdevenv/$(PROJECT_NAME) \
+	-f .mkdev/Containerfile \
+	-t localhost/mkdev/$(PROJECT_NAME) \
 	.
 
 start:
@@ -23,24 +23,24 @@ start:
 
 	$(CONTAINER_ENGINE) run -it -d --replace \
 	$(if $(filter podman,$(CONTAINER_ENGINE)),--userns=keep-id) \
-	--name mkdevenv-$(PROJECT_NAME) \
+	--name mkdev-$(PROJECT_NAME) \
 	--volume .:/home/$(__USER)/workspace:Z \
-	localhost/mkdevenv/$(PROJECT_NAME):latest
+	localhost/mkdev/$(PROJECT_NAME):latest
 
-	@# $(CONTAINER_ENGINE) compose .mkdevenv/compose.yaml up -d
+	@# $(CONTAINER_ENGINE) compose .mkdev/compose.yaml up -d
 
 stop:
 	$(info Stopping development container...)
 
-	$(CONTAINER_ENGINE) stop mkdevenv-$(PROJECT_NAME)
+	$(CONTAINER_ENGINE) stop mkdev-$(PROJECT_NAME)
 
-	@# $(CONTAINER_ENGINE) compose .mkdevenv/compose.yaml down
+	@# $(CONTAINER_ENGINE) compose .mkdev/compose.yaml down
 
 clean: distclean
 	$(info Removing development container and image...)
 
-	-$(CONTAINER_ENGINE) rm mkdevenv-$(PROJECT_NAME)
-	-$(CONTAINER_ENGINE) image rm localhost/mkdevenv/$(PROJECT_NAME)
+	-$(CONTAINER_ENGINE) rm mkdev-$(PROJECT_NAME)
+	-$(CONTAINER_ENGINE) image rm localhost/mkdev/$(PROJECT_NAME)
 
 	@# $(CONTAINER_ENGINE) image prune
 

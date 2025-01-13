@@ -1,14 +1,14 @@
-# mkdevenv: consistent, isolated development
+# mkdev: consistent, isolated development
 
-**mkdevenv** is a personal collection of OCI-compliant container image boilerplates for managing isolated development environments using GNU Make.
+**mkdev** is a personal collection of OCI-compliant container image boilerplates for managing isolated development environments using GNU Make.
 
 It enables a **consistent**, **open**, and **extensible** workflow by using `Containerfile` and `Makefile` as the standard points of entry. Dependencies and tools are packaged in a custom container, providing isolation and replicability of the development environment while still integrating with the `$EDITOR` on the host system.
 
 > "Don't let the development dependency hell mess with your files and processes. Containerize the development environment!"
 > — [Tower Guardian](https://imgflip.com/i/9gc41r), in a new take.
 
-[![release](https://img.shields.io/github/v/release/ttybitnik/mkdevenv)](https://github.com/ttybitnik/mkdevenv/releases/latest)
-[![ci/cd](https://github.com/ttybitnik/mkdevenv/actions/workflows/cicd.yaml/badge.svg)](https://github.com/ttybitnik/mkdevenv/actions/workflows/cicd.yaml)
+[![release](https://img.shields.io/github/v/release/ttybitnik/mkdev)](https://github.com/ttybitnik/mkdev/releases/latest)
+[![ci/cd](https://github.com/ttybitnik/mkdev/actions/workflows/cicd.yaml/badge.svg)](https://github.com/ttybitnik/mkdev/actions/workflows/cicd.yaml)
 [![conventional commits](https://img.shields.io/badge/conventional%20commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 **Example of resources on host system**:
@@ -43,15 +43,15 @@ It enables a **consistent**, **open**, and **extensible** workflow by using `Con
 
 ### Setup
 
-1. **Create a `.mkdevenv` directory** at the root of the project or environment. Only files within this path will be shared with the container.
-1. **Copy the appropriate files from the [boilerplates](boilerplates/) directory** into the `.mkdevenv` directory—for example, the [ansible-fedora](boilerplates/ansible/fedora) development environment. Clone the **mkdevenv** repository to streamline this process.
-1. **Move the `Makefile`** from the `.mkdevenv` directory to the root of the project or environment.
+1. **Create a `.mkdev` directory** at the root of the project or environment. Only files within this path will be shared with the container.
+1. **Copy the appropriate files from the [boilerplates](boilerplates/) directory** into the `.mkdev` directory—for example, the [ansible-fedora](boilerplates/ansible/fedora) development environment. Clone the **mkdev** repository to streamline this process.
+1. **Move the `Makefile`** from the `.mkdev` directory to the root of the project or environment.
 1. **Edit the `Makefile`** and adjust variables with `changeme` values. These variables are used for naming, managing, and running the container.
 
 #### Per-project example
 ```
 project/
-├── .mkdevenv/
+├── .mkdev/
 │   ├── Containerfile
 │   ├── README.md
 │   ├── dnf.txt
@@ -62,7 +62,7 @@ project/
 #### Multi-project (omni) example
 ```
 repositories/
-├── .mkdevenv/
+├── .mkdev/
 │   ├── Containerfile
 │   ├── README.md
 │   ├── apt.txt
@@ -78,10 +78,10 @@ repositories/
 
 #### Default commands on host system
 
-- **`make devenv`**: Build the container image defined in `.mkdevenv/Containerfile`.
-- **`make start`**: Start the mkdevenv container, passing the current working directory as a bind mount.
-- **`make stop`**: Stop the mkdevenv container.
-- **`make clean`**: Remove the mkdevenv container and its artifacts. Executes the `distclean` target first.
+- **`make dev`**: Build the container image defined in `.mkdev/Containerfile`.
+- **`make start`**: Start the mkdev container, passing the current working directory as a bind mount.
+- **`make stop`**: Stop the mkdev container.
+- **`make clean`**: Remove the mkdev container and its artifacts. Executes the `distclean` target first.
 - **`make serestore`**: Restore project files context on SELinux host systems.
 
 #### Custom commands inside the container
@@ -140,17 +140,17 @@ In worst-case scenarios, SSH protocol can also be used.
 
 ## Contributing
 
-In case of unexpected behavior, please open a [bug report](https://github.com/ttybitnik/mkdevenv/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=).
+In case of unexpected behavior, please open a [bug report](https://github.com/ttybitnik/mkdev/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=).
 
 For matters requiring privacy, such as security-related reports or patches, check the [security policy](SECURITY.md).
 
-To contribute to **mkdevenv** boilerplates, see the [project guidelines](boilerplates/README.md).
+To contribute to **mkdev** boilerplates, see the [project guidelines](boilerplates/README.md).
 
 ### Mailing list
 
 [Email workflow](https://git-send-email.io/) is also available.
 
-Feel free to send patches, questions, or discussions related to **mkdevenv** to the [~ttybitnik/general mailing list](https://lists.sr.ht/~ttybitnik/general).
+Feel free to send patches, questions, or discussions related to **mkdev** to the [~ttybitnik/general mailing list](https://lists.sr.ht/~ttybitnik/general).
 
 ## License
 
@@ -158,4 +158,4 @@ This project is licensed under the GNU General Public License v3.0 (GPL-3.0), **
 
 Be aware that the resulting container images may include other software subject to additional licenses, such as the base operating system, shells, and any direct or indirect dependencies of the software being contained. As with any built container image, it is the user's responsibility to ensure their use of the image complies with all relevant licenses for the software contained within.
 
-The source code for this project is available at <https://github.com/ttybitnik/mkdevenv>.
+The source code for this project is available at <https://github.com/ttybitnik/mkdev>.

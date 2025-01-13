@@ -1,5 +1,5 @@
-# MKDEVENV 0.1.0 (x-release-please-version)
-# See <https://github.com/ttybitnik/mkdevenv> for more information.
+# MKDEV 0.1.0 (x-release-please-version)
+# See <https://github.com/ttybitnik/mkdev> for more information.
 
 OMNI_NAME = changeme
 CONTAINER_ENGINE = changeme
@@ -8,15 +8,15 @@ __USER = $(or $(USER),$(shell whoami))
 __AFFIX = omni-$(OMNI_NAME)
 
 # Host targets/commands
-.PHONY: devenv start stop clean serestore
+.PHONY: dev start stop clean serestore
 
-devenv:
+dev:
 	$(info Building development container image...)
 
 	$(CONTAINER_ENGINE) build \
 	--build-arg USERNAME=$(__USER) \
-	-f .mkdevenv/Containerfile \
-	-t localhost/mkdevenv/$(__AFFIX) \
+	-f .mkdev/Containerfile \
+	-t localhost/mkdev/$(__AFFIX) \
 	.
 
 start:
@@ -24,26 +24,26 @@ start:
 
 	$(CONTAINER_ENGINE) run -it -d --replace \
 	$(if $(filter podman,$(CONTAINER_ENGINE)),--userns=keep-id) \
-	--name mkdevenv-$(__AFFIX) \
+	--name mkdev-$(__AFFIX) \
 	--volume .:/home/$(__USER)/workspace:Z \
-	--volume mkdevenv-$(__AFFIX)-cache:/home/$(__USER)/.local \
-	localhost/mkdevenv/$(__AFFIX):latest
+	--volume mkdev-$(__AFFIX)-cache:/home/$(__USER)/.local \
+	localhost/mkdev/$(__AFFIX):latest
 
-	@# $(CONTAINER_ENGINE) compose .mkdevenv/compose.yaml up -d
+	@# $(CONTAINER_ENGINE) compose .mkdev/compose.yaml up -d
 
 stop:
 	$(info Stopping development container...)
 
-	$(CONTAINER_ENGINE) stop mkdevenv-$(__AFFIX)
+	$(CONTAINER_ENGINE) stop mkdev-$(__AFFIX)
 
-	@# $(CONTAINER_ENGINE) compose .mkdevenv/compose.yaml down
+	@# $(CONTAINER_ENGINE) compose .mkdev/compose.yaml down
 
 clean: distclean
 	$(info Removing development container and image...)
 
-	-$(CONTAINER_ENGINE) rm mkdevenv-$(__AFFIX)
-	-$(CONTAINER_ENGINE) image rm localhost/mkdevenv/$(__AFFIX)
-	-$(CONTAINER_ENGINE) volume rm mkdevenv-$(__AFFIX)-cache
+	-$(CONTAINER_ENGINE) rm mkdev-$(__AFFIX)
+	-$(CONTAINER_ENGINE) image rm localhost/mkdev/$(__AFFIX)
+	-$(CONTAINER_ENGINE) volume rm mkdev-$(__AFFIX)-cache
 
 	@# $(CONTAINER_ENGINE) image prune
 

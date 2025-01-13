@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# MKDEVENV - Boilerplates for isolated development environments
+# MKDEV - Boilerplates for isolated development environments
 # Copyright (C) 2024 Vinícius Moraes <vinicius.moraes@eternodevir.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ update_makefiles() {
     stop_pattern="# Container targets\/commands"
     content=$(awk "NR == 1 {next} /$stop_pattern/ {print; exit} 1" "$1")
 
-    if [[ "$1" == "Devenv.mk" ]]; then
+    if [[ "$1" == "Dev.mk" ]]; then
 	for mk in ./boilerplates/!(*omni)/*/Makefile; do
 	    existing_1stline=$(head -1 "$mk")
 	    existing_content=$(awk "/$stop_pattern/ {rest=1; next} rest" "$mk")
@@ -59,7 +59,7 @@ ci_output() {
     fi
 }
 
-source_of_truh="Devenv.mk"
+source_of_truh="Dev.mk"
 update_makefiles "$source_of_truh"
 
 source_of_truh="Omni.mk"

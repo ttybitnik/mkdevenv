@@ -1,13 +1,13 @@
-# MKDEVENV 0.1.0 (x-release-please-version)
+# MKDEV 0.1.0 (x-release-please-version)
 FROM docker.io/fedora:latest
 
-ARG USERNAME=mkdevenv
+ARG USERNAME=mkdev
 
-LABEL mkdevenv.name="c-fedora" \
-      mkdevenv.summary="Image with general tools for developing C-related projects" \
-      mkdevenv.usage="For more information, see <https://github.com/ttybitnik/mkdevenv>"
+LABEL mkdev.name="c-fedora" \
+      mkdev.summary="Image with general tools for developing C-related projects" \
+      mkdev.usage="For more information, see <https://github.com/ttybitnik/mkdev>"
 
-COPY .mkdevenv/*.txt /tmp/
+COPY .mkdev/*.txt /tmp/
 
 RUN dnf update -y && xargs -n 1 dnf install -y < /tmp/dnf.txt && dnf clean all \
     && adduser $USERNAME \

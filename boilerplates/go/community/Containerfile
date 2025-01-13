@@ -1,13 +1,13 @@
-# MKDEVENV 0.1.0 (x-release-please-version)
+# MKDEV 0.1.0 (x-release-please-version)
 FROM docker.io/golang:latest
 
-ARG USERNAME=mkdevenv
+ARG USERNAME=mkdev
 
-LABEL mkdevenv.name="go-community" \
-      mkdevenv.summary="Image with general tools for developing Go-related projects" \
-      mkdevenv.usage="For more information, see <https://github.com/ttybitnik/mkdevenv>"
+LABEL mkdev.name="go-community" \
+      mkdev.summary="Image with general tools for developing Go-related projects" \
+      mkdev.usage="For more information, see <https://github.com/ttybitnik/mkdev>"
 
-COPY .mkdevenv/*.txt /tmp/
+COPY .mkdev/*.txt /tmp/
 
 RUN apt-get update && xargs -n 1 apt-get install -y < /tmp/apt.txt \
     && apt-get clean \

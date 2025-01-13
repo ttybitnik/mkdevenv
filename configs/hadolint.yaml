@@ -5,9 +5,9 @@ ignored:
   - DL3059  # consecutive run (info)
   - DL3048  # label key (style) - bugged thus disabled
 label-schema:
-  mkdevenv.name: text
-  mkdevenv.summary: text
-  mkdevenv.usage: text
+  mkdev.name: text
+  mkdev.summary: text
+  mkdev.usage: text
 strict-labels: true
 trustedRegistries:
   - docker.io
