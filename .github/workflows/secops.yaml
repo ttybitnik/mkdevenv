@@ -18,6 +18,7 @@ jobs:
       - name: Checkout default branch
         uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner in fs mode
+        id: trivy-scan
         uses: aquasecurity/trivy-action@0.29.0
         with:
           scan-type: 'fs'
@@ -34,4 +35,6 @@ jobs:
         run: |
           echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
-          echo "| **trivy_exit_code** | $TRIVY_EXIT_CODE }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **trivy** | ${{ steps.trivy-scan.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **trivy_ignore_unfixed** | $TRIVY_IGNORE_UNFIXED  |" >> $GITHUB_STEP_SUMMARY
+          echo "| **trivy_severity** | $TRIVY_SEVERITY  |" >> $GITHUB_STEP_SUMMARY
