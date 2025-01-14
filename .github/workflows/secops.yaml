@@ -7,7 +7,7 @@ on:
     - cron: '34 8 * * 4'
 
 jobs:
-  scan:
+  trivy:
     permissions:
       contents: read
       security-events: write
