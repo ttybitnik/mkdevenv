@@ -12,7 +12,7 @@ jobs:
       contents: read
       security-events: write
       # private repos only
-      actions: read
+      # actions: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout default branch

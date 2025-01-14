@@ -113,6 +113,6 @@ jobs:
       contents: read
       security-events: write
       # private repos only
-      actions: read
+      # actions: read
     if: ${{ needs.release-please.outputs.release_created }}
     uses: ./.github/workflows/secops.yaml
