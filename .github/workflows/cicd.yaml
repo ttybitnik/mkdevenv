@@ -84,7 +84,6 @@ jobs:
           echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
           echo "| **linter** | ${{ steps.linter.outputs.checks }} |" >> $GITHUB_STEP_SUMMARY
           echo "| **hadolint** | ${{ steps.hadolint.outcome }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| **fallback** | ${{ steps.fallback.outputs.changes || 'false' }} |" >> $GITHUB_STEP_SUMMARY
 
   fallback-updates:
     needs: linter
