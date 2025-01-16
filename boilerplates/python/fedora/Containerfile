@@ -1,0 +1,22 @@
+# MKDEV 0.2.0 (x-release-please-version)
+FROM docker.io/fedora:latest
+
+ARG USERNAME=mkdev
+
+LABEL mkdev.name="python-fedora" \
+      mkdev.summary="Boilerplate with general tools for developing Python-related projects" \
+      mkdev.usage="For more information, see <https://github.com/ttybitnik/mkdev>"
+
+COPY .mkdev/*.txt /tmp/
+
+RUN dnf update -y && xargs -n 1 dnf install -y < /tmp/dnf.txt && dnf clean all \
+    && adduser $USERNAME \
+    && chown $USERNAME:$USERNAME /tmp/*.txt
+
+WORKDIR /home/$USERNAME/workspace
+
+USER $USERNAME
+
+RUN pip3 install --no-cache-dir -r /tmp/pip.txt
+
+CMD ["/bin/bash", "-l"]
