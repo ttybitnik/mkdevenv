@@ -1,4 +1,4 @@
-# MKDEV 0.2.0 (x-release-please-version)
+# MKDEV 0.3.0 (x-release-please-version)
 FROM docker.io/fedora:latest
 
 ARG USERNAME=mkdev

@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/ttybitnik/mkdev/compare/v0.2.0...v0.3.0) (2025-01-16)
+
+
+### Features
+
+* **javascript:** add fedora boilerplates ([7ebad42](https://github.com/ttybitnik/mkdev/commit/7ebad42bba86fb47a5284348a5b39b3035c36330))
+* **python:** add fedora boilerplates ([1621e90](https://github.com/ttybitnik/mkdev/commit/1621e907e8f85ce37ff4d6bc95184a97f759de84))
+
+
+### Bug Fixes
+
+* **go:** remove npm package ([0a999ac](https://github.com/ttybitnik/mkdev/commit/0a999ac02dc650d61247b672a846a0fa31075f46))
+
 ## [0.2.0](https://github.com/ttybitnik/mkdev/compare/v0.1.0...v0.2.0) (2025-01-13)
 
 
