@@ -1,4 +1,4 @@
-# MKDEV 0.2.0 (x-release-please-version)
+# MKDEV 0.3.0 (x-release-please-version)
 # See <https://github.com/ttybitnik/mkdev> for more information.
 
 OMNI_NAME = changeme
