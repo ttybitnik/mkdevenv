@@ -4,6 +4,8 @@
 OMNI_NAME = changeme
 CONTAINER_ENGINE = changeme
 
+PODMAN_BIND_SOCKET = false
+
 __USER = $(or $(USER),$(shell whoami))
 __AFFIX = omni-$(OMNI_NAME)
 
@@ -27,6 +29,8 @@ start:
 	--name mkdev-$(__AFFIX) \
 	--volume .:/home/$(__USER)/workspace:Z \
 	--volume mkdev-$(__AFFIX)-cache:/home/$(__USER)/.local \
+	$(if $(filter true,$(PODMAN_BIND_SOCKET)),--volume $(__SOCKET):$(__SOCKET)) \
+	$(if $(filter true,$(PODMAN_BIND_SOCKET)),--env CONTAINER_HOST=unix://$(__SOCKET)) \
 	localhost/mkdev/$(__AFFIX):latest
 
 	@# $(CONTAINER_ENGINE) compose .mkdev/compose.yaml up -d

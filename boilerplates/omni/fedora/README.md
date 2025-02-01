@@ -2,14 +2,13 @@
 
 | dnf               | npm                              | go            | pip          |
 |:------------------|:---------------------------------|---------------|:-------------|
-| git               | yaml-language-server             | gopls         | yamllint     |
+| git               | yaml-language-server             | gopls         | ansible      |
 | make              | @ansible/ansible-language-server | goimports     | ansible-lint |
-| ripgrep           | bash-language-server             | golangci-lint | molecule     |
-| golang            | release-please                   | goreleaser    |              |
+| ripgrep           | bash-language-server             | golangci-lint | yamllint     |
+| golang            | release-please                   | goreleaser    | molecule     |
 | npm               |                                  | delve         |              |
 | python3           |                                  |               |              |
 | python3-pip       |                                  |               |              |
-| ansible-core      |                                  |               |              |
 | shellcheck        |                                  |               |              |
 | shfmt             |                                  |               |              |
 | hadolint          |                                  |               |              |
@@ -18,6 +17,7 @@
 | clang             |                                  |               |              |
 | clang-tools-extra |                                  |               |              |
 | gdb               |                                  |               |              |
+| podman-remote     |                                  |               |              |
 
 1. Create a `.mkdev` directory at the root of the project.
 2. Copy all the boilerplate files into the `.mkdev` directory.

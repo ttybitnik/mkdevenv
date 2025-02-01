@@ -5,7 +5,6 @@ golang
 npm
 python3
 python3-pip
-ansible-core
 shellcheck
 shfmt
 hadolint
@@ -14,3 +13,4 @@ gcc
 clang
 clang-tools-extra
 gdb
+podman-remote
