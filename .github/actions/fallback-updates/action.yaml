@@ -7,6 +7,9 @@ inputs:
     required: false
     default: 'dry-run'
 outputs:
+  docs:
+    description: Status from update-docs.sh
+    value: ${{ steps.docs.outputs.docs }}
   makefiles:
     description: Status from update-makefiles.sh
     value: ${{ steps.makefiles.outputs.makefiles }}
@@ -15,10 +18,27 @@ outputs:
     value: ${{ steps.push.outputs.push }}
   changes:
     description: Status from update changes
-    value: ${{ steps.makefiles.outputs.changes }}
+    value: ${{ steps.changes.outputs.changes }}
 runs:
   using: composite
   steps:
+    - name: Check README.md files changes as fallback
+      id: docs
+      shell: bash
+      env:
+        RUN_MODE: ${{ inputs.run_mode }}
+        EVENT: ${{ github.event_name }}
+      run: |
+        ./update-docs.sh
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "docs=true" >> "$GITHUB_OUTPUT"
+          if [ "$EVENT" != "push" ]; then
+            echo "::warning title=${{ github.job }}::run update-docs.sh to update docs."
+          fi
+        else
+          echo "docs=false" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Check Makefiles changes as fallback
       id: makefiles
       shell: bash
@@ -28,14 +48,27 @@ runs:
       run: |
         ./update-makefiles.sh
         if [ -n "$(git status --porcelain)" ]; then
-          echo "changes=true" >> "$GITHUB_OUTPUT"
+          echo "makefiles=true" >> "$GITHUB_OUTPUT"
           if [ "$EVENT" != "push" ]; then
             echo "::warning title=${{ github.job }}::run update-makefiles.sh to update boilerplates."
           fi
+        else
+          echo "makefiles=false" >> "$GITHUB_OUTPUT"
         fi
+
+    - name: Determine if changes occurred
+      id: changes
+      shell: bash
+      run: |
+        if [[ "${{ steps.docs.outputs.docs }}" == "true" || "${{ steps.makefiles.outputs.makefiles }}" == "true" ]]; then
+          echo "changes=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "changes=false" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Push changes to the branch
       id: push
-      if: ${{ steps.makefiles.outputs.changes && inputs.run_mode == 'push' }}
+      if: ${{ steps.changes.outputs.changes == 'true' && inputs.run_mode == 'push' }}
       shell: bash
       env:
         RUN_MODE: ${{ inputs.run_mode }}
@@ -48,6 +81,11 @@ runs:
         git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
         git add .
         git commit -m "chore(fallback): update changes for ${COMMIT_SHA::7}"
-        git push origin "$TARGET_BRANCH"
-        echo "push=true" >> "$GITHUB_OUTPUT"
-        echo "::notice title=${{ github.job }}::all changes pushed successfully."
+        if git push origin "$TARGET_BRANCH"; then
+          echo "push=true" >> "$GITHUB_OUTPUT"
+          echo "::notice title=${{ github.job }}::all changes pushed successfully."
+        else
+          echo "push=false" >> "$GITHUB_OUTPUT"
+          echo "::error title=${{ github.job }}::failed to push changes."
+          exit 1
+        fi

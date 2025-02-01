@@ -1,1 +1,1 @@
-((nil . ((compile-command . "./linter.sh && ./update-makefiles.sh"))))
+((nil . ((compile-command . "./linter.sh && ./update-docs.sh && ./update-makefiles.sh"))))

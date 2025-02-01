@@ -104,6 +104,7 @@ jobs:
         run: |
           echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|:--|:--|" >> $GITHUB_STEP_SUMMARY
+          echo "| **docs** | ${{ steps.fallback.outputs.docs }} |" >> $GITHUB_STEP_SUMMARY
           echo "| **makefiles** | ${{ steps.fallback.outputs.makefiles }} |" >> $GITHUB_STEP_SUMMARY
           echo "| **push** | ${{ steps.fallback.outputs.push || 'false' }} |" >> $GITHUB_STEP_SUMMARY
 

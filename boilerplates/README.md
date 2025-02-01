@@ -77,10 +77,12 @@ For a complete example, refer to any of the existing boilerplate files, such as 
 
 To ensure your changes follow the guidelines, run `./linter.sh`.
 
+To keep documentation files up to date with the installed packages, run `./update-docs.sh`.
+
 The files `./Dev.mk` (per-project) and `./Omni.mk` (multi-project) are the source of truth for each approach. Changes to these files, up to the `# Container targets/commands` section, can be propagated to the boilerplates by running `./update-makefiles.sh`.
 
 To streamline this process in one step, run:
 
 ```shell
-./linter.sh && ./update-makefiles.sh
+./linter.sh && ./update-docs.sh && ./update-makefiles.sh
 ```
