@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.4.0](https://github.com/ttybitnik/mkdev/compare/v0.3.0...v0.4.0) (2025-02-01)
+
+
+### Features
+
+* **ansible:** add support for podman-remote ([21828b1](https://github.com/ttybitnik/mkdev/commit/21828b1e768b5d2432bb4b0b272145610b486665))
+* **dev:** add support for podman-remote ([9fc4049](https://github.com/ttybitnik/mkdev/commit/9fc4049d3a0e97a811f5b637402e8a56bdebdd28))
+* **omni:** add support for podman-remote ([22672f1](https://github.com/ttybitnik/mkdev/commit/22672f1bf572edb2c2df9c0b3d19375131c08b67))
+
 ## [0.3.0](https://github.com/ttybitnik/mkdev/compare/v0.2.0...v0.3.0) (2025-01-16)
 
 
