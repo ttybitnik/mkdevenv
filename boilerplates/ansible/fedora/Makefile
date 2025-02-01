@@ -4,7 +4,7 @@
 PROJECT_NAME = changeme
 CONTAINER_ENGINE = changeme
 
-PODMAN_BIND_SOCKET = true
+PODMAN_BIND_SOCKET = false
 
 __USER = $(or $(USER),$(shell whoami))
 __SOCKET = /run/user/$(shell id -u)/podman/podman.sock

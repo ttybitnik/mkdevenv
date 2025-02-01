@@ -8,6 +8,7 @@ PODMAN_BIND_SOCKET = false
 
 __USER = $(or $(USER),$(shell whoami))
 __AFFIX = omni-$(OMNI_NAME)
+__SOCKET = /run/user/$(shell id -u)/podman/podman.sock
 
 # Host targets/commands
 .PHONY: dev start stop clean serestore

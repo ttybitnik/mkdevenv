@@ -4,7 +4,10 @@
 PROJECT_NAME = changeme
 CONTAINER_ENGINE = changeme
 
+PODMAN_BIND_SOCKET = false
+
 __USER = $(or $(USER),$(shell whoami))
+__SOCKET = /run/user/$(shell id -u)/podman/podman.sock
 
 # Host targets/commands
 .PHONY: dev start stop clean serestore
@@ -25,6 +28,8 @@ start:
 	$(if $(filter podman,$(CONTAINER_ENGINE)),--userns=keep-id) \
 	--name mkdev-$(PROJECT_NAME) \
 	--volume .:/home/$(__USER)/workspace:Z \
+	$(if $(filter true,$(PODMAN_BIND_SOCKET)),--volume $(__SOCKET):$(__SOCKET)) \
+	$(if $(filter true,$(PODMAN_BIND_SOCKET)),--env CONTAINER_HOST=unix://$(__SOCKET)) \
 	localhost/mkdev/$(PROJECT_NAME):latest
 
 	@# $(CONTAINER_ENGINE) compose .mkdev/compose.yaml up -d
