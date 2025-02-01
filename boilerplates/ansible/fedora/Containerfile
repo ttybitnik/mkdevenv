@@ -10,6 +10,7 @@ LABEL mkdev.name="ansible-fedora" \
 COPY .mkdev/*.txt /tmp/
 
 RUN dnf update -y && xargs -n 1 dnf install -y < /tmp/dnf.txt && dnf clean all \
+    && ln -s /usr/bin/podman-remote /usr/bin/podman \
     && adduser $USERNAME \
     && chown $USERNAME:$USERNAME /tmp/*.txt
 
