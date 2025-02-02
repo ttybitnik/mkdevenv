@@ -1,7 +1,7 @@
 # bash-fedora
 
 | dnf        | npm                  |
-|:-----------|----------------------|
+|:-----------|:---------------------|
 | git        | bash-language-server |
 | make       |                      |
 | ripgrep    |                      |
