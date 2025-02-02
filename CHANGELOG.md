@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/ttybitnik/mkdev/compare/v0.4.0...v0.5.0) (2025-02-02)
+
+
+### Features
+
+* **ci:** automate docs generation ([f98490e](https://github.com/ttybitnik/mkdev/commit/f98490ed5cf16732331f8270c12c45ceae88ddeb))
+
 ## [0.4.0](https://github.com/ttybitnik/mkdev/compare/v0.3.0...v0.4.0) (2025-02-01)
 
 
